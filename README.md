@@ -1,2 +1,35 @@
 # reinigung-primavista
 Website for Prima Vista Bio Reinigung (reinigung-primavista.com) — a professional cleaning service offering office cleaning, maintenance cleaning, window cleaning, and deep cleaning.
+
+A single-page German marketing site built on the **MERN stack** (MongoDB, Express, React, Node.js), with a working contact form that persists inquiries to MongoDB. Includes a dark/light theme toggle (dark by default) and scroll/entrance animations. Implemented from the Claude Design handoff in `design_extracted/`.
+
+## Run locally
+
+```sh
+npm run install:all   # install root, server, and client dependencies
+npm run dev           # API on :5001 + Vite dev server on :5173
+```
+
+Without `MONGODB_URI` set, the API uses an in-memory MongoDB so everything works out of the box (data is not persisted across restarts). For real persistence, copy `server/.env.example` to `server/.env` and set `MONGODB_URI` (e.g. a MongoDB Atlas cluster).
+
+### Production
+
+```sh
+npm run build   # build the React client to client/dist
+npm start       # Express serves the API + built client on :5001
+```
+
+## Structure
+- `client/` — React 18 + Vite frontend
+  - `src/components/` — Header (with theme toggle), Hero, Services, Why, About (count-up stats), Contact (form), Footer
+  - `src/styles.css` — design tokens (pine/sage/cream palette), dark theme via `[data-theme="dark"]`, animations
+  - `public/` — self-hosted variable fonts, photography, favicon
+- `server/` — Express + Mongoose API
+  - `POST /api/contact` — validate and store a contact inquiry
+  - `GET /api/contact` — list stored inquiries (newest first)
+  - `GET /api/health` — health check
+- `index.html`, `styles.css`, `main.js` — the original static (pre-MERN) version, kept for reference
+
+## Notes
+- Contact details, stats, and social/legal links are **placeholders** — swap in real values.
+- Theme preference persists in `localStorage`; animations respect `prefers-reduced-motion`.

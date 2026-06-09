@@ -1,0 +1,13 @@
+# OS
+.DS_Store
+
+# Design handoff bundle & intermediates (kept locally as reference, not committed)
+design_extracted/
+design_raw.gz
+design_decompressed
+*.tar
+
+# Node / MERN
+node_modules/
+client/dist/
+server/.env

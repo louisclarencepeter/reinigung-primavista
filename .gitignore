@@ -7,7 +7,9 @@ design_raw.gz
 design_decompressed
 *.tar
 
-# Node / MERN
+# Node
 node_modules/
 client/dist/
-server/.env
+.env
+.netlify/
+deno.lock

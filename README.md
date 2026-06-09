@@ -1,27 +1,30 @@
 # reinigung-primavista
 Website for Prima Vista Bio Reinigung (reinigung-primavista.com) — a professional cleaning service offering office cleaning, maintenance cleaning, window cleaning, and deep cleaning.
 
-A single-page German marketing site built on the **MERN stack** (MongoDB, Express, React, Node.js), with a working contact form that persists inquiries to MongoDB. Includes a dark/light theme toggle (dark by default) and scroll/entrance animations. Implemented from the Claude Design handoff in `design_extracted/`.
+A single-page German marketing site: **React** (Vite) frontend, **Netlify Functions** backend, **MongoDB** for contact inquiries. Includes a dark/light theme toggle (dark by default) and scroll/entrance animations. Implemented from the Claude Design handoff in `design_extracted/`.
 
 ## Run locally
 
 ```sh
-npm run install:all   # install root, server, and client dependencies
-npm run dev           # API on :5001 + Vite dev server on :5173
+npm run install:all   # install root and client dependencies
+cp .env.example .env  # fill in MONGODB_URI (and ADMIN_TOKEN if needed)
+npm run dev           # netlify dev → site + functions on http://localhost:8888
 ```
 
-Without `MONGODB_URI` set, the API uses an in-memory MongoDB so everything works out of the box (data is not persisted across restarts). For real persistence, copy `server/.env.example` to `server/.env` and set `MONGODB_URI` (e.g. a MongoDB Atlas cluster).
+`netlify dev` runs the Vite dev server and serves `/api/contact` from the same origin, mirroring production. (If the site is linked via `netlify link`, env vars can come from the Netlify site instead of `.env`.)
+
+UI-only work without the form backend: `npm run dev --prefix client` (Vite on :5173).
 
 ## Deploy (Netlify)
 
-The site deploys to Netlify as a static client plus one serverless function — no running server needed. `netlify.toml` configures everything:
+`netlify.toml` configures everything — connect the repo and it deploys:
 
 - Build: `client/` → `client/dist` (published as static assets)
-- `netlify/functions/contact.mjs` serves `POST /api/contact` (same URL the client uses in dev, so no client changes)
+- `netlify/functions/contact.mjs` serves `/api/contact`
 
-Setup: create a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster and set these environment variables on the Netlify site:
+Set these environment variables on the Netlify site:
 
-- `MONGODB_URI` — the Atlas connection string
+- `MONGODB_URI` — connection string for a [MongoDB Atlas](https://www.mongodb.com/atlas) cluster (free tier works)
 - `ADMIN_TOKEN` — a secret for reading stored inquiries (generate with `openssl rand -hex 32`)
 
 The function caches its Mongoose connection across warm invocations.
@@ -34,23 +37,12 @@ The function caches its Mongoose connection across warm invocations.
 curl -H "Authorization: Bearer $ADMIN_TOKEN" https://<your-site>.netlify.app/api/contact
 ```
 
-### Self-hosted production (alternative)
-
-```sh
-npm run build   # build the React client to client/dist
-npm start       # Express serves the API + built client on :5001
-```
-
 ## Structure
 - `client/` — React 18 + Vite frontend
   - `src/components/` — Header (with theme toggle), Hero, Services, Why, About (count-up stats), Contact (form), Footer
   - `src/styles.css` — design tokens (pine/sage/cream palette), dark theme via `[data-theme="dark"]`, animations
   - `public/` — self-hosted variable fonts, photography, favicon
-- `netlify/functions/contact.mjs` — serverless contact endpoint used in production (Netlify)
-- `server/` — Express + Mongoose API for local development
-  - `POST /api/contact` — validate and store a contact inquiry
-  - `GET /api/contact` — list stored inquiries (newest first)
-  - `GET /api/health` — health check
+- `netlify/functions/contact.mjs` — serverless API: `POST /api/contact` (public, stores an inquiry), `GET /api/contact` (token-protected listing)
 
 ## Notes
 - Contact details, stats, and social/legal links are **placeholders** — swap in real values.

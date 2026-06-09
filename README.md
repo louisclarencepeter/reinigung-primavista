@@ -51,7 +51,6 @@ npm start       # Express serves the API + built client on :5001
   - `POST /api/contact` — validate and store a contact inquiry
   - `GET /api/contact` — list stored inquiries (newest first)
   - `GET /api/health` — health check
-- `index.html`, `styles.css`, `main.js` — the original static (pre-MERN) version, kept for reference
 
 ## Notes
 - Contact details, stats, and social/legal links are **placeholders** — swap in real values.

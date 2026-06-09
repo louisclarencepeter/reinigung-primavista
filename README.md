@@ -19,7 +19,20 @@ The site deploys to Netlify as a static client plus one serverless function — 
 - Build: `client/` → `client/dist` (published as static assets)
 - `netlify/functions/contact.mjs` serves `POST /api/contact` (same URL the client uses in dev, so no client changes)
 
-Setup: create a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster and set `MONGODB_URI` in the Netlify site's environment variables. The function caches its Mongoose connection across warm invocations.
+Setup: create a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster and set these environment variables on the Netlify site:
+
+- `MONGODB_URI` — the Atlas connection string
+- `ADMIN_TOKEN` — a secret for reading stored inquiries (generate with `openssl rand -hex 32`)
+
+The function caches its Mongoose connection across warm invocations.
+
+### Reading inquiries
+
+`GET /api/contact` returns the 100 newest inquiries and requires the admin token; it denies all requests if `ADMIN_TOKEN` is unset:
+
+```sh
+curl -H "Authorization: Bearer $ADMIN_TOKEN" https://<your-site>.netlify.app/api/contact
+```
 
 ### Self-hosted production (alternative)
 

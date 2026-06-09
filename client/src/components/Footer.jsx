@@ -10,17 +10,8 @@ export default function Footer() {
             Professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen — mit
             biologischen Produkten und persönlicher Betreuung.
           </p>
-          <div className="footer-social">
-            <a href="#" aria-label="Facebook">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V5.5h-3c-2.2 0-3.5 1.4-3.5 3.6V11H8v3.5h2.5V22H14v-7.5h2.6L17 11h-3V9.4c0-.3.3-.4.6-.4z"/></svg>
-            </a>
-            <a href="#" aria-label="Instagram">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-            </a>
-            <a href="#" aria-label="LinkedIn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0zM3.4 8.5h3.1V21H3.4V8.5zM9.3 8.5h2.97v1.7h.04c.41-.78 1.42-1.6 2.93-1.6 3.13 0 3.71 2.06 3.71 4.74V21h-3.1v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9.3V8.5z"/></svg>
-            </a>
-          </div>
+          {/* Social icons removed until real profiles exist — restore from git
+              history (Footer.jsx) when the accounts are set up */}
         </div>
 
         <div className="footer-col">

@@ -52,7 +52,6 @@ export default function Services() {
               <span className="ic"><Icon /></span>
               <h3>{title}</h3>
               <p>{text}</p>
-              <span className="more">Mehr erfahren <span className="arrow">›</span></span>
             </article>
           ))}
         </div>

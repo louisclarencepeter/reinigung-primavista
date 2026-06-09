@@ -413,13 +413,6 @@ section { position: relative; }
   line-height: 1.15; margin: 0 0 10px; color: var(--heading);
 }
 .service-card p { margin: 0; font-size: .98rem; color: var(--ink-muted); }
-.service-card .more {
-  display: inline-flex; align-items: center; gap: 7px; margin-top: 20px;
-  font-family: var(--f-display); font-weight: 600; font-size: 12px;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--sage-dark);
-}
-.service-card .more .arrow { transition: transform var(--dur) var(--ease); }
-.service-card:hover .more .arrow { transform: translateX(3px); }
 
 /* ---------- Warum (benefits split) ---------- */
 .warum { background: var(--sage-tint); }
@@ -509,6 +502,8 @@ section { position: relative; }
   box-shadow: 0 24px 60px -34px rgba(35,52,40,.32);
 }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+/* Honeypot field — visually removed but present for bots */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .field { margin-bottom: 18px; display: flex; flex-direction: column; gap: 7px; }
 .field label {
   font-family: var(--f-display); font-weight: 600; font-size: 11px;

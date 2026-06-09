@@ -1,5 +1,8 @@
-import { timingSafeEqual } from 'node:crypto';
+import { createHash, timingSafeEqual } from 'node:crypto';
 import mongoose from 'mongoose';
+
+const RATE_LIMIT_MAX = 3;             // submissions…
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // …per IP per 15 minutes
 
 const contactSchema = new mongoose.Schema(
   {
@@ -13,6 +16,8 @@ const contactSchema = new mongoose.Schema(
     },
     phone: { type: String, trim: true, maxlength: 40, default: '' },
     message: { type: String, required: true, trim: true, minlength: 5, maxlength: 5000 },
+    // sha256 of the client IP — for rate limiting without storing the IP itself
+    ipHash: { type: String, default: '' },
   },
   { timestamps: true }
 );
@@ -38,12 +43,37 @@ function authorized(req) {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
+function clientIpHash(req) {
+  const ip =
+    req.headers.get('x-nf-client-connection-ip') ||
+    (req.headers.get('x-forwarded-for') || '').split(',')[0].trim();
+  return createHash('sha256').update(ip).digest('hex');
+}
+
 export default async (req) => {
   try {
     if (req.method === 'POST') {
+      const { name, email, phone, message, company } = await req.json();
+
+      // Honeypot: real users never see this field; bots that fill it get a
+      // fake success so they don't adapt.
+      if (company) {
+        return Response.json({ ok: true }, { status: 201 });
+      }
+
       await connect();
-      const { name, email, phone, message } = await req.json();
-      const contact = await Contact.create({ name, email, phone, message });
+
+      const ipHash = clientIpHash(req);
+      const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_MS);
+      const recent = await Contact.countDocuments({ ipHash, createdAt: { $gte: windowStart } });
+      if (recent >= RATE_LIMIT_MAX) {
+        return Response.json(
+          { ok: false, error: 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.' },
+          { status: 429 }
+        );
+      }
+
+      const contact = await Contact.create({ name, email, phone, message, ipHash });
       return Response.json({ ok: true, id: contact._id }, { status: 201 });
     }
 
@@ -52,7 +82,7 @@ export default async (req) => {
         return Response.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
       }
       await connect();
-      const contacts = await Contact.find().sort({ createdAt: -1 }).limit(100);
+      const contacts = await Contact.find({}, { ipHash: 0 }).sort({ createdAt: -1 }).limit(100);
       return Response.json(contacts);
     }
 

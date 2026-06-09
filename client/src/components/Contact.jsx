@@ -13,12 +13,12 @@ const ERRORS = {
   message: 'Bitte hinterlassen Sie uns eine kurze Nachricht.',
 };
 
-const EMPTY = { name: '', phone: '', email: '', message: '' };
+const EMPTY = { name: '', phone: '', email: '', message: '', company: '' };
 
 export default function Contact() {
   const [values, setValues] = useState(EMPTY);
   const [invalid, setInvalid] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | sending | success | error
+  const [status, setStatus] = useState('idle'); // idle | sending | success | error | rate-limited
 
   const set = (field) => (e) => {
     setValues({ ...values, [field]: e.target.value });
@@ -41,6 +41,10 @@ export default function Contact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
+      if (res.status === 429) {
+        setStatus('rate-limited');
+        return;
+      }
       if (!res.ok) throw new Error('Request failed');
       setValues(EMPTY);
       setStatus('success');
@@ -82,6 +86,19 @@ export default function Contact() {
         </div>
 
         <form className="contact-form reveal reveal-right" onSubmit={onSubmit} noValidate>
+          {/* Honeypot — hidden from real users, bots fill it */}
+          <div className="hp" aria-hidden="true">
+            <label htmlFor="company">Firma (bitte leer lassen)</label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              value={values.company}
+              onChange={set('company')}
+            />
+          </div>
           <div className="form-row">
             <div className={fieldClass('name')}>
               <label htmlFor="name">Name</label>
@@ -113,6 +130,11 @@ export default function Contact() {
             {status === 'error' && (
               <span className="form-error" role="alert">
                 Leider ist etwas schiefgelaufen. Bitte versuchen Sie es später erneut.
+              </span>
+            )}
+            {status === 'rate-limited' && (
+              <span className="form-error" role="alert">
+                Zu viele Anfragen. Bitte versuchen Sie es später erneut.
               </span>
             )}
           </div>

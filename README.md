@@ -12,7 +12,16 @@ npm run dev           # API on :5001 + Vite dev server on :5173
 
 Without `MONGODB_URI` set, the API uses an in-memory MongoDB so everything works out of the box (data is not persisted across restarts). For real persistence, copy `server/.env.example` to `server/.env` and set `MONGODB_URI` (e.g. a MongoDB Atlas cluster).
 
-### Production
+## Deploy (Netlify)
+
+The site deploys to Netlify as a static client plus one serverless function — no running server needed. `netlify.toml` configures everything:
+
+- Build: `client/` → `client/dist` (published as static assets)
+- `netlify/functions/contact.mjs` serves `POST /api/contact` (same URL the client uses in dev, so no client changes)
+
+Setup: create a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster and set `MONGODB_URI` in the Netlify site's environment variables. The function caches its Mongoose connection across warm invocations.
+
+### Self-hosted production (alternative)
 
 ```sh
 npm run build   # build the React client to client/dist
@@ -24,7 +33,8 @@ npm start       # Express serves the API + built client on :5001
   - `src/components/` — Header (with theme toggle), Hero, Services, Why, About (count-up stats), Contact (form), Footer
   - `src/styles.css` — design tokens (pine/sage/cream palette), dark theme via `[data-theme="dark"]`, animations
   - `public/` — self-hosted variable fonts, photography, favicon
-- `server/` — Express + Mongoose API
+- `netlify/functions/contact.mjs` — serverless contact endpoint used in production (Netlify)
+- `server/` — Express + Mongoose API for local development
   - `POST /api/contact` — validate and store a contact inquiry
   - `GET /api/contact` — list stored inquiries (newest first)
   - `GET /api/health` — health check

@@ -9,6 +9,9 @@
     "build": "npm run build --prefix client",
     "start": "npm start --prefix server"
   },
+  "dependencies": {
+    "mongoose": "^8.12.1"
+  },
   "devDependencies": {
     "concurrently": "^9.1.2"
   }

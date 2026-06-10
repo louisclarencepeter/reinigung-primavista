@@ -6,6 +6,16 @@
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+var cookieConsent = null;
+try { cookieConsent = localStorage.getItem('primaVistaCookieConsent'); } catch (e) {}
+gtag('consent', 'default', {
+  analytics_storage: cookieConsent === 'accepted' ? 'granted' : 'denied',
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  functionality_storage: 'granted',
+  security_storage: 'granted'
+});
 gtag('js', new Date());
 gtag('config', 'G-ZS9VVJJVF5');
 </script>

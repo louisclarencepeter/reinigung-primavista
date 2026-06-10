@@ -6,6 +6,7 @@ import Why from './components/Why.jsx';
 import About from './components/About.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
+import CookieConsent from './components/CookieConsent.jsx';
 
 export default function App() {
   // localStorage can throw in private/restricted browsing contexts
@@ -57,6 +58,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <CookieConsent />
     </>
   );
 }

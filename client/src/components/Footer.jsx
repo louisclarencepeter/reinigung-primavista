@@ -1,6 +1,10 @@
 import Logo from './Logo.jsx';
 
 export default function Footer() {
+  const openCookieSettings = () => {
+    window.dispatchEvent(new Event('open-cookie-consent'));
+  };
+
   return (
     <footer className="site-footer">
       <div className="container footer-top">
@@ -52,6 +56,7 @@ export default function Footer() {
         <div className="legal">
           <a href="#">Impressum</a>
           <a href="#">Datenschutz</a>
+          <button type="button" onClick={openCookieSettings}>Cookie-Einstellungen</button>
           <a href="#">AGB</a>
         </div>
       </div>

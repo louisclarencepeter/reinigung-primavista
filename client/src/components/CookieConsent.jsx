@@ -2,13 +2,6 @@ import { useEffect, useState } from 'react';
 
 const CONSENT_KEY = 'primaVistaCookieConsent';
 
-const consentState = (choice) => ({
-  analytics_storage: choice === 'accepted' ? 'granted' : 'denied',
-  ad_storage: 'denied',
-  ad_user_data: 'denied',
-  ad_personalization: 'denied',
-});
-
 function getStoredConsent() {
   try {
     return localStorage.getItem(CONSENT_KEY);
@@ -25,29 +18,36 @@ function saveConsent(choice) {
   }
 }
 
+// gtag.js is only injected after acceptance (see index.html). On a decline it
+// is usually not loaded at all; the consent update only matters when the
+// visitor revokes a previous acceptance mid-session.
 function updateGoogleConsent(choice) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-  window.gtag('consent', 'update', consentState(choice));
+  window.gtag('consent', 'update', {
+    analytics_storage: choice === 'accepted' ? 'granted' : 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  });
 }
 
-function sendAcceptedPageView() {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-  window.gtag('event', 'page_view', {
-    page_title: document.title,
-    page_location: window.location.href,
-    page_path: `${window.location.pathname}${window.location.search}`,
+// Best-effort removal of GA cookies after a revoked consent. GA may have set
+// them on the bare domain or a parent domain, so try each suffix.
+function deleteGaCookies() {
+  const expire = 'expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+  const parts = window.location.hostname.split('.');
+  document.cookie.split(';').forEach((entry) => {
+    const name = entry.split('=')[0].trim();
+    if (name !== '_ga' && !name.startsWith('_ga_')) return;
+    document.cookie = `${name}=; ${expire}`;
+    for (let i = 0; i < parts.length - 1; i++) {
+      document.cookie = `${name}=; ${expire}; domain=.${parts.slice(i).join('.')}`;
+    }
   });
 }
 
 export default function CookieConsent() {
-  const [choice, setChoice] = useState(() => getStoredConsent());
   const [visible, setVisible] = useState(() => !getStoredConsent());
-
-  useEffect(() => {
-    if (choice === 'accepted' || choice === 'declined') {
-      updateGoogleConsent(choice);
-    }
-  }, [choice]);
 
   useEffect(() => {
     const openSettings = () => setVisible(true);
@@ -55,13 +55,15 @@ export default function CookieConsent() {
     return () => window.removeEventListener('open-cookie-consent', openSettings);
   }, []);
 
-  const choose = (nextChoice) => {
-    saveConsent(nextChoice);
-    setChoice(nextChoice);
+  const choose = (choice) => {
+    saveConsent(choice);
     setVisible(false);
-    updateGoogleConsent(nextChoice);
-    if (nextChoice === 'accepted') {
-      sendAcceptedPageView();
+    if (choice === 'accepted') {
+      if (typeof window.loadGoogleAnalytics === 'function') window.loadGoogleAnalytics();
+      updateGoogleConsent(choice); // re-grant if revoked earlier this session
+    } else {
+      updateGoogleConsent(choice);
+      deleteGaCookies();
     }
   };
 
@@ -74,7 +76,8 @@ export default function CookieConsent() {
         <h2 id="cookie-title">Cookie-Einstellungen</h2>
         <p>
           Wir nutzen Google Analytics, um Besuche statistisch auszuwerten. Analyse-Cookies
-          werden nur gesetzt, wenn Sie zustimmen.
+          werden nur gesetzt, wenn Sie zustimmen. Details finden Sie in unserer{' '}
+          <a href="/datenschutz.html">Datenschutzerklärung</a>.
         </p>
       </div>
       <div className="cookie-actions" aria-label="Cookie-Auswahl">

@@ -13,7 +13,7 @@ const ERRORS = {
   message: 'Bitte hinterlassen Sie uns eine kurze Nachricht.',
 };
 
-const EMPTY = { name: '', phone: '', email: '', message: '', company: '' };
+const EMPTY = { name: '', phone: '', email: '', message: '', website: '' };
 
 export default function Contact() {
   const [values, setValues] = useState(EMPTY);
@@ -86,17 +86,20 @@ export default function Contact() {
         </div>
 
         <form className="contact-form reveal reveal-right" onSubmit={onSubmit} noValidate>
-          {/* Honeypot — hidden from real users, bots fill it */}
+          {/* Honeypot — hidden from real users, bots fill it. Deliberately NOT
+              named like an address-profile field (company, fax, …): browser
+              autofill ignores autocomplete="off" and would fill those for real
+              users, silently swallowing their inquiry. */}
           <div className="hp" aria-hidden="true">
-            <label htmlFor="company">Firma (bitte leer lassen)</label>
+            <label htmlFor="website">Website (bitte leer lassen)</label>
             <input
               type="text"
-              id="company"
-              name="company"
+              id="website"
+              name="website"
               tabIndex={-1}
               autoComplete="off"
-              value={values.company}
-              onChange={set('company')}
+              value={values.website}
+              onChange={set('website')}
             />
           </div>
           <div className="form-row">

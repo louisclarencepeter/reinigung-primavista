@@ -26,6 +26,7 @@ Set these environment variables on the Netlify site:
 
 - `MONGODB_URI` — connection string for a [MongoDB Atlas](https://www.mongodb.com/atlas) cluster (free tier works)
 - `ADMIN_TOKEN` — a secret for reading stored inquiries (generate with `openssl rand -hex 32`)
+- `IP_HASH_SECRET` — key for hashing client IPs in the contact-form rate limiter (generate with `openssl rand -hex 32`); without it the function falls back to an unkeyed hash and logs a warning
 
 The function caches its Mongoose connection across warm invocations.
 
@@ -45,5 +46,5 @@ curl -H "Authorization: Bearer $ADMIN_TOKEN" https://<your-site>.netlify.app/api
 - `netlify/functions/contact.mjs` — serverless API: `POST /api/contact` (public, stores an inquiry), `GET /api/contact` (token-protected listing)
 
 ## Notes
-- Contact details, stats, and social/legal links are **placeholders** — swap in real values.
+- Contact details, stats, and legal links are **placeholders** — swap in real values. `client/public/datenschutz.html` is pre-filled with the details currently available (email, phone, locations); the remaining bracketed items (street address) get filled in once the final company data is available — update the page, don't remove it.
 - Theme preference persists in `localStorage`; animations respect `prefers-reduced-motion`.

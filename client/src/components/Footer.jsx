@@ -55,7 +55,7 @@ export default function Footer() {
         <div>© 2026 Prima Vista Bio Reinigung. Alle Rechte vorbehalten.</div>
         <div className="legal">
           <a href="#">Impressum</a>
-          <a href="#">Datenschutz</a>
+          <a href="/datenschutz.html">Datenschutz</a>
           <button type="button" onClick={openCookieSettings}>Cookie-Einstellungen</button>
           <a href="#">AGB</a>
         </div>

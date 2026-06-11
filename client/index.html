@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZS9VVJJVF5"></script>
+<meta charset="UTF-8">
+<!-- Google Analytics, consent-gated ("basic" consent mode): gtag.js is only
+     loaded after the visitor accepts in the cookie banner — no requests to
+     Google before or without consent (TTDSG §25). -->
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+window.loadGoogleAnalytics = function () {
+  if (window.__gaLoaded) return;
+  window.__gaLoaded = true;
+  gtag('consent', 'default', {
+    analytics_storage: 'granted',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted'
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-ZS9VVJJVF5');
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZS9VVJJVF5';
+  document.head.appendChild(s);
+};
 var cookieConsent = null;
 try { cookieConsent = localStorage.getItem('primaVistaCookieConsent'); } catch (e) {}
-gtag('consent', 'default', {
-  analytics_storage: cookieConsent === 'accepted' ? 'granted' : 'denied',
-  ad_storage: 'denied',
-  ad_user_data: 'denied',
-  ad_personalization: 'denied',
-  functionality_storage: 'granted',
-  security_storage: 'granted'
-});
-gtag('js', new Date());
-gtag('config', 'G-ZS9VVJJVF5');
+if (cookieConsent === 'accepted') window.loadGoogleAnalytics();
 </script>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prima Vista — Bio Reinigung | Professionelle, natürliche Reinigung für Büros</title>
 <meta name="description" content="Prima Vista Bio Reinigung — professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen. Bio-Produkte, ohne aggressive Chemie. Frankfurt & Emmenbrücke.">

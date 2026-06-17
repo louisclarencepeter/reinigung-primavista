@@ -45,6 +45,11 @@ curl -H "Authorization: Bearer $ADMIN_TOKEN" https://<your-site>.netlify.app/api
   - `public/` — self-hosted variable fonts, photography, favicon
 - `netlify/functions/contact.mjs` — serverless API: `POST /api/contact` (public, stores an inquiry), `GET /api/contact` (token-protected listing)
 
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) builds the client on every push and PR to `main`/`development`.
+
 ## Notes
 - Contact details, stats, and legal links are **placeholders** — swap in real values. `client/public/datenschutz.html` is pre-filled with the details currently available (email, phone, locations); the remaining bracketed items (street address) get filled in once the final company data is available — update the page, don't remove it.
 - Theme preference persists in `localStorage`; animations respect `prefers-reduced-motion`.
+- Cookie consent is stored with a timestamp and expires after 12 months — the banner then re-asks, and an expired acceptance no longer loads Google Analytics (logic lives in both `CookieConsent.jsx` and the loader in `index.html`).

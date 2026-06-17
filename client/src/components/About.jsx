@@ -45,7 +45,7 @@ export default function About() {
             Prima Vista wurde von Daniel und Monica gegründet — mit der Überzeugung, dass
             professionelle Reinigung und ökologische Verantwortung zusammengehören. Was als kleines
             Team begann, ist heute ein verlässlicher Partner für Büros und Unternehmen in Frankfurt
-            und Emmenbrücke.
+            und Umgebung.
           </p>
           <p>
             Wir setzen ausschließlich auf biologische Produkte, geschultes Personal und persönliche
@@ -55,12 +55,11 @@ export default function About() {
           <div className="about-stats">
             <div><CountUp end={10} suffix="+" /><div className="k">Jahre Erfahrung</div></div>
             <div><CountUp end={100} suffix="%" /><div className="k">Bio-Produkte</div></div>
-            <div><CountUp end={2} /><div className="k">Standorte DE &amp; CH</div></div>
+            <div><CountUp end={1} /><div className="k">Standort Frankfurt</div></div>
           </div>
-          <div className="signature">Wir freuen uns auf Sie.<span>Daniel &amp; Monica — Gründer</span></div>
         </div>
         <div className="about-photo reveal reveal-right">
-          <img src="/images/founders.jpg" alt="Daniel und Monica, Gründer von Prima Vista" loading="lazy" />
+          <img src="/images/team.jpg" alt="Mitarbeiterin von Prima Vista bei der professionellen Büroreinigung" width="1400" height="933" loading="lazy" />
         </div>
       </div>
     </section>

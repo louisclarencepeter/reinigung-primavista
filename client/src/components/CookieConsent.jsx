@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
 
 const CONSENT_KEY = 'primaVistaCookieConsent';
+const CONSENT_AT_KEY = 'primaVistaCookieConsentAt';
+// Re-ask after 12 months — consent shouldn't be indefinite. The GA loader in
+// index.html applies the same window, so an expired acceptance never loads GA.
+const CONSENT_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
 
 function getStoredConsent() {
   try {
-    return localStorage.getItem(CONSENT_KEY);
+    const choice = localStorage.getItem(CONSENT_KEY);
+    if (!choice) return null;
+    // Entries without a timestamp (saved before expiry existed) also re-ask.
+    const at = Number(localStorage.getItem(CONSENT_AT_KEY));
+    if (!at || Date.now() - at > CONSENT_MAX_AGE_MS) return null;
+    return choice;
   } catch {
     return null;
   }
@@ -13,6 +22,7 @@ function getStoredConsent() {
 function saveConsent(choice) {
   try {
     localStorage.setItem(CONSENT_KEY, choice);
+    localStorage.setItem(CONSENT_AT_KEY, String(Date.now()));
   } catch {
     /* Consent still applies for this page view. */
   }

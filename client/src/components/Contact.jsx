@@ -70,15 +70,15 @@ export default function Contact() {
           <div style={{ marginTop: 32 }}>
             <div className="contact-detail">
               <span className="ic"><Phone /></span>
-              <div><div className="k">Telefon</div><div className="v">+49 (0) 69 1234 5678</div></div>
+              <div><div className="k">Telefon</div><div className="v">+49 (0)1578 9818308</div></div>
             </div>
             <div className="contact-detail">
               <span className="ic"><Mail /></span>
-              <div><div className="k">E-Mail</div><div className="v">info@primavista-reinigung.de</div></div>
+              <div><div className="k">E-Mail</div><div className="v">info@primavista-reinigung.com</div></div>
             </div>
             <div className="contact-detail">
               <span className="ic"><MapPin /></span>
-              <div><div className="k">Standorte</div><div className="v">Frankfurt am Main (DE) &nbsp;·&nbsp; Emmenbrücke (CH)</div></div>
+              <div><div className="k">Standort</div><div className="v">Frankfurt am Main</div></div>
             </div>
           </div>
 
@@ -105,22 +105,25 @@ export default function Contact() {
           <div className="form-row">
             <div className={fieldClass('name')}>
               <label htmlFor="name">Name</label>
-              <input type="text" id="name" name="name" placeholder="Ihr Name" required value={values.name} onChange={set('name')} />
+              {/* maxLength mirrors the server-side schema limits, so an
+                  over-long value can't pass client validation and then bounce
+                  with a generic server error */}
+              <input type="text" id="name" name="name" placeholder="Ihr Name" required maxLength={120} value={values.name} onChange={set('name')} />
               <span className="err">{ERRORS.name}</span>
             </div>
             <div className="field">
               <label htmlFor="phone">Telefon</label>
-              <input type="tel" id="phone" name="phone" placeholder="Optional" value={values.phone} onChange={set('phone')} />
+              <input type="tel" id="phone" name="phone" placeholder="Optional" maxLength={40} value={values.phone} onChange={set('phone')} />
             </div>
           </div>
           <div className={fieldClass('email')}>
             <label htmlFor="email">E-Mail</label>
-            <input type="email" id="email" name="email" placeholder="ihre@email.de" required value={values.email} onChange={set('email')} />
+            <input type="email" id="email" name="email" placeholder="ihre@email.de" required maxLength={254} value={values.email} onChange={set('email')} />
             <span className="err">{ERRORS.email}</span>
           </div>
           <div className={fieldClass('message')}>
             <label htmlFor="message">Nachricht</label>
-            <textarea id="message" name="message" placeholder="Beschreiben Sie kurz Ihre Räumlichkeiten und Ihren Bedarf …" required value={values.message} onChange={set('message')} />
+            <textarea id="message" name="message" placeholder="Beschreiben Sie kurz Ihre Räumlichkeiten und Ihren Bedarf …" required maxLength={5000} value={values.message} onChange={set('message')} />
             <span className="err">{ERRORS.message}</span>
           </div>
           <div className="form-submit">

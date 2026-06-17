@@ -1,0 +1,170 @@
+/* ============================================================
+   Shared styling for the standalone legal pages (Impressum,
+   Datenschutz). Mirrors the tokens, fonts and chrome from
+   client/src/styles.css so these static pages match the site.
+   ============================================================ */
+
+/* ---------- Fonts ---------- */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2-variations');
+  font-weight: 300 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2-variations');
+  font-weight: 300 700; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/Manrope-VariableFont_wght.woff2') format('woff2-variations');
+  font-weight: 300 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-VariableFont_opsz_wght.woff2') format('woff2-variations');
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+
+/* ---------- Tokens (light) ---------- */
+:root {
+  --pine:        #2e4636;
+  --pine-deep:   #233428;
+  --sage:        #8a9a6b;
+  --sage-dark:   #6f8052;
+  --sage-bright: #a4b487;
+
+  --cream:       #f4f1ea;
+  --cream-soft:  #faf8f2;
+  --white:       #ffffff;
+
+  --ink:         #2b2c27;
+  --ink-muted:   #5d6058;
+  --on-pine:     #eef1e8;
+  --on-pine-mut: #b9c4ad;
+
+  --hair-light:  rgba(43,44,39,.12);
+  --hair-pine:   rgba(238,241,232,.16);
+
+  color-scheme: light;
+  --heading:        var(--pine);
+  --heading-strong: var(--pine);
+  --header-bg:   rgba(244,241,234,.82);
+  --logo-ink:    #2e4636;
+  --logo-leaf1:  #8a9a6b;
+  --logo-leaf2:  #6f8052;
+
+  --f-serif:   'Cormorant Garamond', Georgia, serif;
+  --f-display: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --f-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --dur: 280ms;
+}
+
+/* ---------- Dark theme ---------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --cream:       #171b17;
+  --cream-soft:  #1f251f;
+  --ink:         #e9eae2;
+  --ink-muted:   #adb2a4;
+  --sage-dark:   #a4b487;
+  --hair-light:  rgba(233,234,226,.14);
+  --heading:        #eef1e8;
+  --heading-strong: #f3f5ee;
+  --header-bg:   rgba(23,27,23,.82);
+  --logo-ink:    #eef1e8;
+  --logo-leaf1:  #a4b487;
+  --logo-leaf2:  #8a9a6b;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.container { width: 100%; max-width: 860px; margin: 0 auto; padding-inline: 24px; }
+a { color: var(--sage-dark); transition: color var(--dur) var(--ease); }
+
+/* ---------- Header ---------- */
+.legal-header {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--header-bg);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid var(--hair-light);
+}
+.legal-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; padding-block: 18px;
+}
+.logo { display: inline-flex; align-items: center; gap: 13px; text-decoration: none; }
+.logo .mark { width: 44px; height: 44px; flex: none; }
+.logo .word { display: flex; flex-direction: column; line-height: 1; }
+.logo .word .name {
+  font-family: var(--f-serif); font-weight: 600; font-size: 24px;
+  letter-spacing: .14em; color: var(--heading); padding-left: 2px; white-space: nowrap;
+}
+.logo .word .sub {
+  font-family: var(--f-display); font-weight: 600; font-size: 9.5px;
+  letter-spacing: .42em; text-transform: uppercase; color: var(--sage-dark);
+  margin-top: 4px; padding-left: 4px;
+}
+.back-link {
+  font-family: var(--f-display); font-weight: 600; font-size: 13px;
+  letter-spacing: .03em; color: var(--ink-muted); text-decoration: none; white-space: nowrap;
+}
+.back-link:hover { color: var(--sage-dark); }
+
+/* ---------- Content ---------- */
+main.legal { padding-block: 60px 24px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--f-display); font-weight: 600; font-size: 12px;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--sage-dark); margin: 0 0 22px;
+}
+.eyebrow::before { content: ""; width: 30px; height: 2px; background: var(--sage); border-radius: 2px; }
+h1 {
+  font-family: var(--f-serif); font-weight: 500;
+  font-size: clamp(2.4rem, 5vw, 3.2rem); line-height: 1.08;
+  color: var(--heading-strong); margin: 0 0 14px;
+}
+h1 em { font-style: italic; color: var(--sage-dark); }
+.lead { color: var(--ink-muted); font-size: 1.1rem; margin: 0; max-width: 62ch; }
+.stand { color: var(--ink-muted); font-size: .9rem; margin: 10px 0 0; opacity: .85; }
+h2 {
+  font-family: var(--f-serif); font-weight: 500; font-size: 1.7rem; line-height: 1.2;
+  color: var(--heading); margin: 52px 0 14px; padding-top: 30px; border-top: 1px solid var(--hair-light);
+}
+h3 {
+  font-family: var(--f-serif); font-weight: 600; font-size: 1.22rem;
+  color: var(--heading); margin: 28px 0 6px;
+}
+p, li { color: var(--ink); margin: 0 0 16px; }
+ul { padding-left: 22px; margin: 0 0 16px; }
+li { margin: 0 0 8px; }
+a:hover { color: var(--sage); text-decoration: underline; }
+
+/* ---------- Footer ---------- */
+.legal-footer { background: var(--pine-deep); color: var(--on-pine-mut); margin-top: 72px; }
+.legal-footer .container {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px 28px; flex-wrap: wrap; padding-block: 30px; font-size: .85rem;
+}
+.legal-footer a { color: var(--on-pine-mut); text-decoration: none; }
+.legal-footer a:hover { color: var(--sage-bright); }
+.legal-links { display: flex; gap: 26px; flex-wrap: wrap; }
+
+@media (max-width: 560px) {
+  .logo .word .name { font-size: 21px; }
+  main.legal { padding-block: 44px 24px; }
+}

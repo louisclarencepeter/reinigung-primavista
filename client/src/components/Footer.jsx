@@ -43,10 +43,9 @@ export default function Footer() {
         <div className="footer-col">
           <h5>Kontakt</h5>
           <ul>
-            <li>+49 (0) 69 1234 5678</li>
-            <li><a href="mailto:info@primavista-reinigung.de">info@primavista-reinigung.de</a></li>
-            <li>Frankfurt am Main (DE)</li>
-            <li>Emmenbrücke (CH)</li>
+            <li>+49 (0)1578 9818308</li>
+            <li><a href="mailto:info@primavista-reinigung.com">info@primavista-reinigung.com</a></li>
+            <li>Frankfurt am Main</li>
           </ul>
         </div>
       </div>
@@ -54,10 +53,9 @@ export default function Footer() {
       <div className="container footer-bottom">
         <div>© 2026 Prima Vista Bio Reinigung. Alle Rechte vorbehalten.</div>
         <div className="legal">
-          <a href="#">Impressum</a>
+          <a href="/impressum.html">Impressum</a>
           <a href="/datenschutz.html">Datenschutz</a>
           <button type="button" onClick={openCookieSettings}>Cookie-Einstellungen</button>
-          <a href="#">AGB</a>
         </div>
       </div>
     </footer>

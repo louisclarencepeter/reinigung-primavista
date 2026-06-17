@@ -26,17 +26,44 @@ window.loadGoogleAnalytics = function () {
   s.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZS9VVJJVF5';
   document.head.appendChild(s);
 };
-var cookieConsent = null;
-try { cookieConsent = localStorage.getItem('primaVistaCookieConsent'); } catch (e) {}
-if (cookieConsent === 'accepted') window.loadGoogleAnalytics();
+// Consent expires after 12 months (see CookieConsent.jsx) — an expired
+// acceptance must not load GA, the banner will re-ask instead.
+var cookieConsent = null, cookieConsentAt = 0;
+try {
+  cookieConsent = localStorage.getItem('primaVistaCookieConsent');
+  cookieConsentAt = Number(localStorage.getItem('primaVistaCookieConsentAt'));
+} catch (e) {}
+if (cookieConsent === 'accepted' && cookieConsentAt &&
+    Date.now() - cookieConsentAt < 365 * 24 * 60 * 60 * 1000) {
+  window.loadGoogleAnalytics();
+}
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prima Vista — Bio Reinigung | Professionelle, natürliche Reinigung für Büros</title>
-<meta name="description" content="Prima Vista Bio Reinigung — professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen. Bio-Produkte, ohne aggressive Chemie. Frankfurt & Emmenbrücke.">
+<meta name="description" content="Prima Vista Bio Reinigung — professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen. Bio-Produkte, ohne aggressive Chemie. Frankfurt & Umgebung.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://reinigung-primavista.com/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Prima Vista — Bio Reinigung">
 <meta property="og:description" content="Professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen — mit biologischen Produkten und persönlicher Betreuung.">
+<meta property="og:url" content="https://reinigung-primavista.com/">
+<meta property="og:image" content="https://reinigung-primavista.com/images/office-tree.jpg">
+<meta property="og:locale" content="de_DE">
+<!-- LocalBusiness structured data for local search. Telephone and street
+     address deliberately omitted until the real company data is available —
+     add them here together with the Impressum. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Prima Vista Bio Reinigung",
+  "url": "https://reinigung-primavista.com/",
+  "image": "https://reinigung-primavista.com/images/office-tree.jpg",
+  "description": "Professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen — Bio-Produkte, ohne aggressive Chemie.",
+  "email": "info@primavista-reinigung.com",
+  "areaServed": ["Frankfurt am Main", "Hessen"]
+}
+</script>
 </head>
 <body>
 <script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>

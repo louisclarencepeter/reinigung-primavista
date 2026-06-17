@@ -23,7 +23,7 @@ export default function Why() {
     <section id="warum" className="warum section-pad">
       <div className="container warum-grid">
         <div className="warum-photo reveal reveal-left">
-          <img src="/images/office-open.jpg" alt="Helles, gepflegtes Großraumbüro mit Pflanzen und Glaswänden" loading="lazy" />
+          <img src="/images/office-open.jpg" alt="Helles, gepflegtes Großraumbüro mit Pflanzen und Glaswänden" width="462" height="430" loading="lazy" />
         </div>
         <div className="reveal reveal-right">
           <p className="eyebrow">Warum Prima Vista</p>

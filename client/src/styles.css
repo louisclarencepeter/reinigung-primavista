@@ -9,22 +9,22 @@
 /* ---------- Fonts ---------- */
 @font-face {
   font-family: 'Cormorant Garamond';
-  src: url('/fonts/CormorantGaramond-VariableFont_wght.ttf') format('truetype-variations');
+  src: url('/fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2-variations');
   font-weight: 300 700; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Cormorant Garamond';
-  src: url('/fonts/CormorantGaramond-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  src: url('/fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2-variations');
   font-weight: 300 700; font-style: italic; font-display: swap;
 }
 @font-face {
   font-family: 'Manrope';
-  src: url('/fonts/Manrope-VariableFont_wght.ttf') format('truetype-variations');
+  src: url('/fonts/Manrope-VariableFont_wght.woff2') format('woff2-variations');
   font-weight: 300 800; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  src: url('/fonts/Inter-VariableFont_opsz_wght.woff2') format('woff2-variations');
   font-weight: 100 900; font-style: normal; font-display: swap;
 }
 

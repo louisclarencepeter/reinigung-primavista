@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Single-page site: only the homepage is listed. /datenschutz.html is
+     deliberately absent (noindex). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://reinigung-primavista.com/</loc>
+  </url>
+</urlset>

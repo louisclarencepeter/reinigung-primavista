@@ -45,7 +45,7 @@ export default function Header({ theme, onToggleTheme }) {
             <a href="#kontakt" className="btn btn-primary">Angebot anfordern <span className="arrow">›</span></a>
             <button
               className="menu-toggle"
-              aria-label="Menü öffnen"
+              aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
               aria-expanded={open}
               onClick={() => setOpen(!open)}
             >

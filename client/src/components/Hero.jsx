@@ -28,7 +28,7 @@ export default function Hero() {
 
         <div className="hero-media reveal">
           <div className="photo">
-            <img src="/images/office-tree.jpg" alt="Modernes Bürofoyer mit Baum im begrünten Lichthof" loading="eager" />
+            <img src="/images/office-tree.jpg" alt="Modernes Bürofoyer mit Baum im begrünten Lichthof" width="1600" height="1143" loading="eager" fetchpriority="high" />
           </div>
           <div className="hero-badge">
             <span className="leaf"><Leaf /></span>

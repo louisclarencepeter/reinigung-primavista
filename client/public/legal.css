@@ -50,9 +50,6 @@
   --heading:        var(--pine);
   --heading-strong: var(--pine);
   --header-bg:   rgba(244,241,234,.82);
-  --logo-ink:    #2e4636;
-  --logo-leaf1:  #8a9a6b;
-  --logo-leaf2:  #6f8052;
 
   --f-serif:   'Cormorant Garamond', Georgia, serif;
   --f-display: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
@@ -74,9 +71,6 @@
   --heading:        #eef1e8;
   --heading-strong: #f3f5ee;
   --header-bg:   rgba(23,27,23,.82);
-  --logo-ink:    #eef1e8;
-  --logo-leaf1:  #a4b487;
-  --logo-leaf2:  #8a9a6b;
 }
 
 /* ---------- Base ---------- */
@@ -108,7 +102,11 @@ a { color: var(--sage-dark); transition: color var(--dur) var(--ease); }
   gap: 20px; padding-block: 18px;
 }
 .logo { display: inline-flex; align-items: center; gap: 13px; text-decoration: none; }
-.logo .mark { width: 44px; height: 44px; flex: none; }
+.logo .mark {
+  width: 44px; height: 44px; flex: none; display: block;
+  background: url(/logo-mark.png) center / contain no-repeat;
+}
+[data-theme="dark"] .logo .mark { background-image: url(/logo-mark-dark.png); }
 .logo .word { display: flex; flex-direction: column; line-height: 1; }
 .logo .word .name {
   font-family: var(--f-serif); font-weight: 600; font-size: 24px;

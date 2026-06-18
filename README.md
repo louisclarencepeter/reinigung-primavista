@@ -21,6 +21,7 @@ UI-only work without the form backend: `npm run dev --prefix client` (Vite on :5
 
 - Build: `client/` → `client/dist` (published as static assets)
 - `netlify/functions/contact.mjs` serves `/api/contact`
+- `client/public/.well-known/bimi.svg` hosts the BIMI logo; DNS/mail setup steps live in `docs/bimi-setup.md`
 
 Set these environment variables on the Netlify site:
 

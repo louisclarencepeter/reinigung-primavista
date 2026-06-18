@@ -420,14 +420,21 @@ section { position: relative; }
   display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
 }
 .warum-photo {
+  position: relative;
   border-radius: var(--r-lg); overflow: hidden;
   aspect-ratio: 4/3.3; box-shadow: 0 30px 60px -30px rgba(35,52,40,.45);
 }
 .warum-photo img {
+  position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
-  transition: transform 1.2s var(--ease);
+  opacity: 0;
+  transition: opacity 1.1s var(--ease), transform 1.2s var(--ease);
 }
-.warum-photo:hover img { transform: scale(1.045); }
+.warum-photo img.is-active { opacity: 1; }
+.warum-photo:hover img.is-active { transform: scale(1.045); }
+@media (prefers-reduced-motion: reduce) {
+  .warum-photo img { transition: none; }
+}
 .benefit {
   display: flex; gap: 20px; padding: 22px 0;
   border-bottom: 1px solid var(--hair-light);

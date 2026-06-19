@@ -57,9 +57,10 @@ function deleteGaCookies() {
 }
 
 export default function CookieConsent() {
-  const [visible, setVisible] = useState(() => !getStoredConsent());
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    setVisible(!getStoredConsent());
     const openSettings = () => setVisible(true);
     window.addEventListener('open-cookie-consent', openSettings);
     return () => window.removeEventListener('open-cookie-consent', openSettings);

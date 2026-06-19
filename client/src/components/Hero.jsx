@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <section className="hero">
       <div className="container hero-grid">
-        <div className="hero-copy reveal">
+        <div className="hero-copy">
           <p className="eyebrow">Bio Reinigung für Büros &amp; Unternehmen</p>
           <h1>Professionelle, <em>natürliche</em> und zuverlässige Reinigung.</h1>
           <div className="rule"></div>
@@ -26,9 +26,23 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-media reveal">
+        <div className="hero-media">
           <div className="photo">
-            <img src="/images/office-tree.jpg" alt="Modernes Bürofoyer mit Baum im begrünten Lichthof" width="1600" height="1143" loading="eager" fetchpriority="high" />
+            <picture>
+              <source
+                type="image/webp"
+                srcSet="/images/office-tree-640.webp 640w, /images/office-tree-960.webp 960w, /images/office-tree-1280.webp 1280w"
+                sizes="(max-width: 1000px) calc(100vw - 44px), 50vw"
+              />
+              <img
+                src="/images/office-tree.jpg"
+                alt="Modernes Bürofoyer mit Baum im begrünten Lichthof"
+                width="1600"
+                height="1143"
+                loading="lazy"
+                fetchpriority="low"
+              />
+            </picture>
           </div>
           <div className="hero-badge">
             <span className="leaf"><Leaf /></span>

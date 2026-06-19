@@ -19,7 +19,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-col">
-          <h5>Navigation</h5>
+          <h2>Navigation</h2>
           <ul>
             <li><a href="#top">Start</a></li>
             <li><a href="#leistungen">Leistungen</a></li>
@@ -30,7 +30,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-col">
-          <h5>Leistungen</h5>
+          <h2>Leistungen</h2>
           <ul>
             <li><a href="#leistungen">Büroreinigung</a></li>
             <li><a href="#leistungen">Unterhaltsreinigung</a></li>
@@ -41,7 +41,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-col">
-          <h5>Kontakt</h5>
+          <h2>Kontakt</h2>
           <ul>
             <li>+49 (0)1578 9818308</li>
             <li><a href="mailto:info@primavista-reinigung.com">info@primavista-reinigung.com</a></li>

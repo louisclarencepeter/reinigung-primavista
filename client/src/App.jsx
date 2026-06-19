@@ -12,7 +12,7 @@ export default function App() {
   // localStorage can throw in private/restricted browsing contexts
   const [theme, setTheme] = useState(() => {
     try {
-      return localStorage.getItem('theme') || 'dark';
+      return document.documentElement.getAttribute('data-theme') || 'dark';
     } catch {
       return 'dark';
     }
@@ -49,7 +49,7 @@ export default function App() {
 
   return (
     <>
-      <Header theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} />
+      <Header onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} />
       <main id="top">
         <Hero />
         <Services />

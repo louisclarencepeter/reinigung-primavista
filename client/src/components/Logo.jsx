@@ -4,7 +4,7 @@ export default function Logo({ onDark = false }) {
   // badge on the dark header and pine footer. The wordmark text stays live so
   // it still follows the active theme.
   return (
-    <a href="#top" className={onDark ? 'logo on-dark' : 'logo'} aria-label="Prima Vista Bio Reinigung — Startseite">
+    <a href="#top" className={onDark ? 'logo on-dark' : 'logo'}>
       <span className="mark" aria-hidden="true"></span>
       <span className="word">
         <span className="name">Prima Vista</span>

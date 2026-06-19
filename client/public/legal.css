@@ -136,9 +136,12 @@ a:hover { color: var(--sage); text-decoration: underline; }
   display: flex; align-items: center; justify-content: space-between;
   gap: 18px 28px; flex-wrap: wrap; padding-block: 30px; font-size: .85rem;
 }
-.legal-footer a { color: var(--on-pine-mut); text-decoration: none; }
+.legal-footer a {
+  color: var(--on-pine-mut); text-decoration: none;
+  display: inline-flex; align-items: center; min-height: 48px;
+}
 .legal-footer a:hover { color: var(--sage-bright); }
-.legal-links { display: flex; gap: 26px; flex-wrap: wrap; }
+.legal-links { display: flex; gap: 18px 26px; flex-wrap: wrap; }
 
 @media (max-width: 560px) {
   .logo .word .name { font-size: 21px; }

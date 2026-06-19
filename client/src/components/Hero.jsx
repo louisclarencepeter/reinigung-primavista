@@ -39,8 +39,8 @@ export default function Hero() {
                 alt="Modernes Bürofoyer mit Baum im begrünten Lichthof"
                 width="1600"
                 height="1143"
-                loading="lazy"
-                fetchpriority="low"
+                loading="eager"
+                fetchpriority="high"
               />
             </picture>
           </div>

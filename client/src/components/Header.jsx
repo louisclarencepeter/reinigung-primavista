@@ -10,7 +10,7 @@ const LINKS = [
   ['#kontakt', 'Kontakt'],
 ];
 
-export default function Header({ theme, onToggleTheme }) {
+export default function Header({ onToggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -37,10 +37,11 @@ export default function Header({ theme, onToggleTheme }) {
             <button
               className="theme-toggle"
               onClick={onToggleTheme}
-              aria-label={theme === 'dark' ? 'Helles Design aktivieren' : 'Dunkles Design aktivieren'}
-              title={theme === 'dark' ? 'Helles Design' : 'Dunkles Design'}
+              aria-label="Farbschema umschalten"
+              title="Farbschema umschalten"
             >
-              {theme === 'dark' ? <Sun /> : <Moon />}
+              <Sun className="theme-icon sun-icon" aria-hidden="true" />
+              <Moon className="theme-icon moon-icon" aria-hidden="true" />
             </button>
             <a href="#kontakt" className="btn btn-primary">Angebot anfordern <span className="arrow">›</span></a>
             <button

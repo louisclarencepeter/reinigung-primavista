@@ -27,9 +27,11 @@ const BENEFITS = [
 
 export default function Why() {
   const [active, setActive] = useState(0);
+  const [imagesReady, setImagesReady] = useState(false);
 
   // Auto cross-fade through the photos; paused for reduced-motion users.
   useEffect(() => {
+    setImagesReady(true);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const id = setInterval(() => setActive((i) => (i + 1) % PHOTOS.length), 4500);
     return () => clearInterval(id);
@@ -42,7 +44,7 @@ export default function Why() {
           {PHOTOS.map((photo, i) => (
             <img
               key={photo.src}
-              src={photo.src}
+              src={imagesReady ? photo.src : undefined}
               alt={i === active ? photo.alt : ''}
               aria-hidden={i === active ? undefined : true}
               className={i === active ? 'is-active' : undefined}
@@ -64,7 +66,7 @@ export default function Why() {
               <div className="benefit" key={title}>
                 <span className="ic"><Icon /></span>
                 <div>
-                  <h4>{title}</h4>
+                  <h3>{title}</h3>
                   <p>{text}</p>
                 </div>
               </div>

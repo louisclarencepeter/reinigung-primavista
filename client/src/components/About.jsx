@@ -35,6 +35,12 @@ function CountUp({ end, suffix = '', duration = 1400 }) {
 }
 
 export default function About() {
+  const [imageReady, setImageReady] = useState(false);
+
+  useEffect(() => {
+    setImageReady(true);
+  }, []);
+
   return (
     <section id="ueber-uns" className="about section-pad">
       <div className="container about-grid">
@@ -59,7 +65,7 @@ export default function About() {
           </div>
         </div>
         <div className="about-photo reveal reveal-right">
-          <img src="/images/team.jpg" alt="Mitarbeiterin von Prima Vista bei der professionellen Büroreinigung" width="1400" height="933" loading="lazy" />
+          <img src={imageReady ? '/images/team.jpg' : undefined} alt="Mitarbeiterin von Prima Vista bei der professionellen Büroreinigung" width="1400" height="933" loading="lazy" />
         </div>
       </div>
     </section>

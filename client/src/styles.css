@@ -706,3 +706,15 @@ section { position: relative; }
     min-width: 0; width: 100%; padding: 13px 14px; font-size: 13px;
   }
 }
+/* Very narrow phones (≤359px, e.g. 320px / zoomed): the "Prima Vista" wordmark
+   can't shrink (white-space: nowrap), so logo + 2×44px toggles overflow the row.
+   Trim the logo just enough to fit. Stops at 359px so the 360px audit width and
+   up keep the 720px-breakpoint sizing untouched. */
+@media (max-width: 359px) {
+  .header-inner { gap: 10px; }
+  .header-cta { gap: 6px; }
+  .logo { gap: 8px; }
+  .logo .mark { width: 34px; height: 34px; }
+  .logo .word .name { font-size: 18px; letter-spacing: .04em; }
+  .logo .word .sub { font-size: 8px; letter-spacing: .28em; }
+}

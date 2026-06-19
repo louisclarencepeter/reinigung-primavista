@@ -43,7 +43,13 @@ if (cookieConsent === 'accepted' && cookieConsentAt &&
 <meta name="description" content="Prima Vista Bio Reinigung — professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen. Bio-Produkte, ohne aggressive Chemie. Frankfurt & Umgebung.">
 <link rel="icon" type="image/png" href="/favicon.png" sizes="512x512">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="canonical" href="https://reinigung-primavista.com/">
+<meta name="theme-color" content="#2e4636">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Prima Vista">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Prima Vista — Bio Reinigung">
 <meta property="og:description" content="Professionelle, natürliche und zuverlässige Reinigung für Büros und Unternehmen — mit biologischen Produkten und persönlicher Betreuung.">
@@ -68,6 +74,7 @@ if (cookieConsent === 'accepted' && cookieConsentAt &&
 </head>
 <body>
 <script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 <div id="root"></div>
 <script type="module" src="/src/main.jsx"></script>
 </body>

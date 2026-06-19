@@ -1,0 +1,43 @@
+{
+  "name": "Prima Vista Bio Reinigung",
+  "short_name": "Prima Vista",
+  "description": "Professionelle, natuerliche und zuverlaessige Reinigung fuer Bueros und Unternehmen in Frankfurt und Umgebung.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#171b17",
+  "theme_color": "#2e4636",
+  "lang": "de-DE",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Angebot anfordern",
+      "short_name": "Kontakt",
+      "description": "Direkt zum Prima Vista Kontaktformular.",
+      "url": "/#kontakt",
+      "icons": [
+        {
+          "src": "/pwa-icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

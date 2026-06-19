@@ -662,6 +662,12 @@ section { position: relative; }
 }
 @media (max-width: 720px) {
   .container { padding-inline: 22px; }
+  .header-inner { gap: 12px; }
+  .header-cta { gap: 8px; }
+  .logo { gap: 10px; }
+  .logo .mark { width: 40px; height: 40px; }
+  .logo .word .name { font-size: 22px; letter-spacing: .1em; }
+  .logo .word .sub { font-size: 8.5px; letter-spacing: .32em; }
   .section-pad { padding: 72px 0; }
   .hero p.sub { font-size: 1rem; line-height: 1.5; }
   .trust-grid { grid-template-columns: 1fr 1fr; }

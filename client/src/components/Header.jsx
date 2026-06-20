@@ -48,6 +48,7 @@ export default function Header({ onToggleTheme }) {
               className="menu-toggle"
               aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
               aria-expanded={open}
+              aria-controls="mobile-nav"
               onClick={() => setOpen(!open)}
             >
               <span></span><span></span><span></span>
@@ -56,7 +57,7 @@ export default function Header({ onToggleTheme }) {
         </div>
       </header>
 
-      <nav className={open ? 'mobile-nav open' : 'mobile-nav'} aria-label="Mobile Navigation">
+      <nav id="mobile-nav" className={open ? 'mobile-nav open' : 'mobile-nav'} aria-label="Mobile Navigation">
         {LINKS.map(([href, label]) => (
           <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
         ))}

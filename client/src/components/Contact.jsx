@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { flushSync } from 'react-dom';
 import { Phone, Mail, MapPin, CheckCircle2 } from 'lucide-react';
 
 const validators = {
@@ -31,8 +32,14 @@ export default function Contact() {
     Object.keys(validators).forEach((f) => {
       if (!validators[f](values[f])) bad[f] = true;
     });
-    setInvalid(bad);
-    if (Object.keys(bad).length) return;
+    // Flush the invalid state before moving focus, so aria-invalid /
+    // aria-describedby are already on the field when AT announces it.
+    flushSync(() => setInvalid(bad));
+    const badFields = Object.keys(bad);
+    if (badFields.length) {
+      document.getElementById(badFields[0])?.focus();
+      return;
+    }
 
     setStatus('sending');
     try {
@@ -70,15 +77,15 @@ export default function Contact() {
           <div style={{ marginTop: 32 }}>
             <div className="contact-detail">
               <span className="ic"><Phone /></span>
-              <div><div className="k">Telefon</div><div className="v">+49 (0)1578 9818308</div></div>
+              <div><div className="k">Telefon</div><div className="v"><a href="tel:+4915789818308">+49 1578 98 18 308</a></div></div>
             </div>
             <div className="contact-detail">
               <span className="ic"><Mail /></span>
-              <div><div className="k">E-Mail</div><div className="v">info@primavista-reinigung.com</div></div>
+              <div><div className="k">E-Mail</div><div className="v"><a href="mailto:info@reinigung-primavista.com">info@reinigung-primavista.com</a></div></div>
             </div>
             <div className="contact-detail">
               <span className="ic"><MapPin /></span>
-              <div><div className="k">Standort</div><div className="v">Frankfurt am Main</div></div>
+              <div><div className="k">Adresse</div><div className="v">Gref-Völsing-Straße 13<br />60314 Frankfurt am Main<br />Deutschland</div></div>
             </div>
           </div>
 
@@ -108,8 +115,8 @@ export default function Contact() {
               {/* maxLength mirrors the server-side schema limits, so an
                   over-long value can't pass client validation and then bounce
                   with a generic server error */}
-              <input type="text" id="name" name="name" placeholder="Ihr Name" required maxLength={120} value={values.name} onChange={set('name')} />
-              <span className="err">{ERRORS.name}</span>
+              <input type="text" id="name" name="name" placeholder="Ihr Name" required maxLength={120} aria-invalid={invalid.name ? 'true' : undefined} aria-describedby={invalid.name ? 'name-err' : undefined} value={values.name} onChange={set('name')} />
+              <span className="err" id="name-err">{ERRORS.name}</span>
             </div>
             <div className="field">
               <label htmlFor="phone">Telefon</label>
@@ -118,13 +125,13 @@ export default function Contact() {
           </div>
           <div className={fieldClass('email')}>
             <label htmlFor="email">E-Mail</label>
-            <input type="email" id="email" name="email" placeholder="ihre@email.de" required maxLength={254} value={values.email} onChange={set('email')} />
-            <span className="err">{ERRORS.email}</span>
+            <input type="email" id="email" name="email" placeholder="ihre@email.de" required maxLength={254} aria-invalid={invalid.email ? 'true' : undefined} aria-describedby={invalid.email ? 'email-err' : undefined} value={values.email} onChange={set('email')} />
+            <span className="err" id="email-err">{ERRORS.email}</span>
           </div>
           <div className={fieldClass('message')}>
             <label htmlFor="message">Nachricht</label>
-            <textarea id="message" name="message" placeholder="Beschreiben Sie kurz Ihre Räumlichkeiten und Ihren Bedarf …" required maxLength={5000} value={values.message} onChange={set('message')} />
-            <span className="err">{ERRORS.message}</span>
+            <textarea id="message" name="message" placeholder="Beschreiben Sie kurz Ihre Räumlichkeiten und Ihren Bedarf …" required maxLength={5000} aria-invalid={invalid.message ? 'true' : undefined} aria-describedby={invalid.message ? 'message-err' : undefined} value={values.message} onChange={set('message')} />
+            <span className="err" id="message-err">{ERRORS.message}</span>
           </div>
           <div className="form-submit">
             <button type="submit" className="btn btn-primary" disabled={status === 'sending'}>

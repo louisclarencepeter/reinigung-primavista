@@ -14,6 +14,8 @@
   --sage-dark:   #6f8052;   /* moss hover */
   --sage-bright: #a4b487;   /* moss on dark */
   --sage-tint:   #e7ead9;   /* faint moss wash */
+  --sage-cta:    #647449;   /* darker moss for primary buttons — 5.1:1 on #fff (AA) */
+  --sage-cta-hover: #55633f;
 
   /* Surfaces */
   --cream:       #f4f1ea;   /* page canvas */
@@ -187,8 +189,8 @@ h1, h2, h3, p { overflow-wrap: break-word; }
               border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .btn:active { transform: translateY(1px); }
-.btn-primary { background: var(--sage); color: #fff; position: relative; overflow: hidden; }
-.btn-primary:hover { background: var(--sage-dark); }
+.btn-primary { background: var(--sage-cta); color: #fff; position: relative; overflow: hidden; }
+.btn-primary:hover { background: var(--sage-cta-hover); }
 .btn-primary::before {
   content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
   background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
@@ -211,6 +213,20 @@ h1, h2, h3, p { overflow-wrap: break-word; }
 
 .btn .arrow { transition: transform var(--dur) var(--ease); }
 .btn:hover .arrow { transform: translateX(3px); }
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  padding: 12px 20px; background: var(--pine); color: #fff;
+  font-family: var(--f-display); font-weight: 600; font-size: 14px;
+  border-radius: 0 0 var(--r-md) 0;
+}
+.skip-link:focus { left: 0; outline: 2px solid var(--sage); outline-offset: 2px; }
+
+/* Visible keyboard focus for links & buttons (form fields keep their own ring). */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--sage-dark); outline-offset: 3px; border-radius: 4px;
+}
 
 /* ---------- Header ---------- */
 .site-header {

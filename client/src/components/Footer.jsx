@@ -43,9 +43,9 @@ export default function Footer() {
         <div className="footer-col">
           <h2>Kontakt</h2>
           <ul>
-            <li>+49 (0)1578 9818308</li>
-            <li><a href="mailto:info@primavista-reinigung.com">info@primavista-reinigung.com</a></li>
-            <li>Frankfurt am Main</li>
+            <li><a href="tel:+4915789818308">+49 1578 98 18 308</a></li>
+            <li><a href="mailto:info@reinigung-primavista.com">info@reinigung-primavista.com</a></li>
+            <li>Gref-Völsing-Straße 13<br />60314 Frankfurt am Main<br />Deutschland</li>
           </ul>
         </div>
       </div>

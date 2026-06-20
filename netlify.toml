@@ -1,5 +1,5 @@
 [build]
-  command = "npm install --prefix client && npm run build --prefix client"
+  command = "npm ci --prefix client && npm run build --prefix client"
   publish = "client/dist"
 
 [functions]
@@ -23,6 +23,9 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # One-year HSTS. Hold off on includeSubDomains/preload until every subdomain
+    # is confirmed HTTPS-only and the preload submission is a deliberate step.
+    Strict-Transport-Security = "max-age=31536000"
 
 # Vite content-hashes everything under /assets, so cache forever.
 [[headers]]

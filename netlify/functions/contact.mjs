@@ -52,9 +52,11 @@ function authorized(req) {
 // Keyed hash: an unsalted sha256 of an IPv4 address is brute-forceable in
 // minutes, so without the secret it would still be personal data.
 function clientIpHash(req) {
-  const ip =
-    req.headers.get('x-nf-client-connection-ip') ||
-    (req.headers.get('x-forwarded-for') || '').split(',')[0].trim();
+  // Only trust Netlify's platform-set client IP. X-Forwarded-For is
+  // client-controlled and spoofable, so we don't key the rate limiter on it;
+  // if the trusted header is ever absent, all requests share one bucket rather
+  // than letting an attacker mint a fresh key (and bypass the limit) per request.
+  const ip = req.headers.get('x-nf-client-connection-ip') || 'unknown';
   const secret = process.env.IP_HASH_SECRET;
   if (!secret) {
     // Degrade rather than reject the inquiry — losing leads is worse.
@@ -67,6 +69,11 @@ function clientIpHash(req) {
 export default async (req) => {
   try {
     if (req.method === 'POST') {
+      // A contact form never needs a large payload; reject oversized bodies
+      // early (defense-in-depth — the platform also caps request size).
+      if (Number(req.headers.get('content-length') || 0) > 16 * 1024) {
+        return Response.json({ ok: false, error: 'Anfrage zu groß.' }, { status: 413 });
+      }
       let body;
       try {
         body = await req.json();

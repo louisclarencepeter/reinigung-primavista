@@ -49,8 +49,9 @@ export default function App() {
 
   return (
     <>
+      <a className="skip-link" href="#top">Zum Inhalt springen</a>
       <Header onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} />
-      <main id="top">
+      <main id="top" tabIndex={-1}>
         <Hero />
         <Services />
         <Why />

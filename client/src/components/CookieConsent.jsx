@@ -81,11 +81,11 @@ export default function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="cookie-consent" role="dialog" aria-modal="false" aria-labelledby="cookie-title">
+    <div className="cookie-consent" role="dialog" aria-modal="false" aria-labelledby="cookie-title" aria-describedby="cookie-desc">
       <div>
         <p className="cookie-kicker">Datenschutz</p>
         <h2 id="cookie-title">Cookie-Einstellungen</h2>
-        <p>
+        <p id="cookie-desc">
           Wir nutzen Google Analytics, um Besuche statistisch auszuwerten. Analyse-Cookies
           werden nur gesetzt, wenn Sie zustimmen. Details finden Sie in unserer{' '}
           <a href="/datenschutz.html">Datenschutzerklärung</a>.

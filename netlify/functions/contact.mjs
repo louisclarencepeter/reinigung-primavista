@@ -4,6 +4,12 @@ import mongoose from 'mongoose';
 const RATE_LIMIT_MAX = 3;             // submissions…
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // …per IP per 15 minutes
 
+// Outer retention bound for inquiries. They should be deleted as soon as the
+// request is handled; this TTL is the automatic backstop so nothing is kept
+// indefinitely (data minimisation, Art. 5(1)(e) DSGVO). Keep in sync with the
+// stated period in client/public/datenschutz.html.
+const CONTACT_RETENTION_DAYS = 365;
+
 const contactSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true, minlength: 2, maxlength: 120 },
@@ -19,6 +25,10 @@ const contactSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Auto-delete inquiries once the retention window passes (MongoDB TTL monitor
+// sweeps expired docs ~every 60s). Applies to existing documents too.
+contactSchema.index({ createdAt: 1 }, { expireAfterSeconds: CONTACT_RETENTION_DAYS * 24 * 60 * 60 });
 
 // Rate-limit entries live in their own collection and self-delete via TTL
 // index once the window has passed, so no IP-derived data is retained.

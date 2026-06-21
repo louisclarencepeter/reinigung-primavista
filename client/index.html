@@ -95,6 +95,33 @@ if (cookieConsent === 'accepted' && cookieConsentAt &&
 <script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 <div id="root"></div>
+<script>
+window.__pvMenuHydrated = false;
+(function(){
+  function setMenu(open){
+    var button = document.querySelector('.menu-toggle');
+    var nav = document.getElementById('mobile-nav');
+    if (!button || !nav) return;
+    button.classList.toggle('is-open', open);
+    button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    button.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    nav.classList.toggle('open', open);
+    nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+    document.body.classList.toggle('mobile-menu-open', open);
+  }
+  document.addEventListener('click', function(e){
+    if (window.__pvMenuHydrated) return;
+    var button = e.target.closest && e.target.closest('.menu-toggle');
+    if (!button) return;
+    e.preventDefault();
+    setMenu(button.getAttribute('aria-expanded') !== 'true');
+  });
+  document.addEventListener('keydown', function(e){
+    if (window.__pvMenuHydrated || e.key !== 'Escape') return;
+    setMenu(false);
+  });
+})();
+</script>
 <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

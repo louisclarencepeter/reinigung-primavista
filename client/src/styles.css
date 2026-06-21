@@ -722,11 +722,12 @@ section { position: relative; }
     min-width: 0; width: 100%; padding: 13px 14px; font-size: 13px;
   }
 }
-/* Very narrow phones (≤359px, e.g. 320px / zoomed): the "Prima Vista" wordmark
+/* Very narrow phones (≤360px, e.g. 320px / zoomed): the "Prima Vista" wordmark
    can't shrink (white-space: nowrap), so logo + 2×44px toggles overflow the row.
-   Trim the logo just enough to fit. Stops at 359px so the 360px audit width and
+   Trim the logo just enough to fit. Includes 360px because Lighthouse checks
+   that exact width and flags even a 2px header overflow as PWA content-width.
    up keep the 720px-breakpoint sizing untouched. */
-@media (max-width: 359px) {
+@media (max-width: 360px) {
   .header-inner { gap: 10px; }
   .header-cta { gap: 6px; }
   .logo { gap: 8px; }

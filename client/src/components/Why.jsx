@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Leaf, Flower2, Lock } from 'lucide-react';
 
 const PHOTOS = [
+  { src: '/images/staff-home.jpg', alt: 'Mitarbeiterinnen von Prima Vista bei der Reinigung in hellen, gepflegten Räumen' },
   { src: '/images/green-wall.jpg', alt: 'Begrüntes Büro mit lebender Pflanzenwand und nachhaltigem Prima Vista Leitbild' },
   { src: '/images/products.jpg', alt: 'Biologische, ökologisch abbaubare Reinigungsmittel von Prima Vista' },
   { src: '/images/people.jpg', alt: 'Helles, gepflegtes Büro mit gesundem Arbeitsumfeld für Mitarbeiter' },

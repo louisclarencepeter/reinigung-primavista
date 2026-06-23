@@ -31,14 +31,14 @@ export default function Hero() {
             <picture>
               <source
                 type="image/webp"
-                srcSet="/images/office-tree-640.webp 640w, /images/office-tree-960.webp 960w, /images/office-tree-1280.webp 1280w"
+                srcSet="/images/office-clean-640.webp 640w, /images/office-clean-810.webp 810w"
                 sizes="(max-width: 1000px) calc(100vw - 44px), 50vw"
               />
               <img
-                src="/images/office-tree.jpg"
-                alt="Modernes Bürofoyer mit Baum im begrünten Lichthof"
-                width="1600"
-                height="1143"
+                src="/images/office-clean.jpg"
+                alt="Mitarbeiterinnen von Prima Vista bei der professionellen Büroreinigung"
+                width="810"
+                height="848"
                 loading="eager"
                 fetchpriority="high"
               />

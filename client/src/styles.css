@@ -408,7 +408,7 @@ section { position: relative; }
   background: var(--cream-soft);
   border: 1px solid var(--hair-light);
   border-radius: var(--r-md);
-  padding: 38px 34px 34px; min-width: 0;
+  overflow: hidden; min-width: 0;
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
               border-color var(--dur) var(--ease);
 }
@@ -417,14 +417,32 @@ section { position: relative; }
   box-shadow: 0 28px 50px -28px rgba(35,52,40,.32);
   border-color: rgba(138,154,107,.5);
 }
-.service-card .ic {
+/* Photo banner at the top of each card. Cards without a matching photo get
+   the --brand modifier: a moss→pine wash so the grid stays uniform. */
+.service-media {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  background: var(--sage-tint);
+}
+.service-media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .5s var(--ease);
+}
+.service-card:hover .service-media img { transform: scale(1.04); }
+.service-media--brand { background: linear-gradient(135deg, var(--sage), var(--pine)); }
+
+.service-body { position: relative; padding: 42px 34px 34px; }
+/* Icon badge straddles the banner / body edge; the ring matches the card so
+   it reads as a chip sitting on the paper. */
+.service-body .ic {
+  position: absolute; top: -28px; left: 30px;
   width: 56px; height: 56px; border-radius: var(--r-sm);
   background: var(--sage-tint); color: var(--sage-dark);
-  display: grid; place-items: center; margin-bottom: 24px;
+  display: grid; place-items: center; z-index: 2;
+  box-shadow: 0 0 0 5px var(--cream-soft);
   transition: transform .45s var(--ease), background var(--dur) var(--ease);
 }
-.service-card:hover .ic { transform: scale(1.07) rotate(-5deg); }
-.service-card h3 {
+.service-card:hover .service-body .ic { transform: scale(1.07) rotate(-5deg); }
+.service-body h3 {
   font-family: var(--f-serif); font-weight: 600; font-size: 1.62rem;
   line-height: 1.15; margin: 0 0 10px; color: var(--heading);
   /* Hyphenate the long service names (Unterhalts­reinigung) for a natural
@@ -433,7 +451,7 @@ section { position: relative; }
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.service-card p { margin: 0; font-size: .98rem; color: var(--ink-muted); }
+.service-body p { margin: 0; font-size: .98rem; color: var(--ink-muted); }
 
 /* ---------- Warum (benefits split) ---------- */
 .warum { background: var(--sage-tint); }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { setAnalyticsConsent } from '../lib/analytics.js';
 
 const CONSENT_KEY = 'primaVistaCookieConsent';
 const CONSENT_AT_KEY = 'primaVistaCookieConsentAt';
@@ -67,6 +68,7 @@ export default function CookieConsent() {
   }, []);
 
   const choose = (choice) => {
+    setAnalyticsConsent(choice);
     saveConsent(choice);
     setVisible(false);
     if (choice === 'accepted') {

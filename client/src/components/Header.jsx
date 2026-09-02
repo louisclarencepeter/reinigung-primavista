@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, Mail, Moon, Phone, Sun } from 'lucide-react';
 import Logo from './Logo.jsx';
+import { trackContactClick } from '../lib/analytics.js';
 
 const LINKS = [
   ['#top', 'Start'],
@@ -105,7 +106,7 @@ export default function Header({ onToggleTheme }) {
           </a>
 
           <div className="mobile-nav-contact" aria-label="Kontaktinformationen">
-            <a href="tel:+4915789818308" onClick={() => setOpen(false)}>
+            <a href="tel:+4915789818308" onClick={() => { trackContactClick('phone'); setOpen(false); }}>
               <span className="mobile-nav-contact-icon"><Phone aria-hidden="true" /></span>
               <span><strong>Telefon</strong><small>+49 1578 98 18 308</small></span>
             </a>

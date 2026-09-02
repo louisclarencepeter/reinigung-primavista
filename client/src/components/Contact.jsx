@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { Phone, Mail, MapPin, CheckCircle2 } from 'lucide-react';
+import { trackContactClick, trackContactLead } from '../lib/analytics.js';
 
 const validators = {
   name: (v) => v.trim().length > 1,
@@ -20,6 +21,7 @@ export default function Contact() {
   const [values, setValues] = useState(EMPTY);
   const [invalid, setInvalid] = useState({});
   const [status, setStatus] = useState('idle'); // idle | sending | success | error | rate-limited
+  const submitting = useRef(false);
 
   const set = (field) => (e) => {
     setValues({ ...values, [field]: e.target.value });
@@ -28,6 +30,7 @@ export default function Contact() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (submitting.current) return;
     const bad = {};
     Object.keys(validators).forEach((f) => {
       if (!validators[f](values[f])) bad[f] = true;
@@ -41,6 +44,7 @@ export default function Contact() {
       return;
     }
 
+    submitting.current = true;
     setStatus('sending');
     try {
       const res = await fetch('/api/contact', {
@@ -53,11 +57,19 @@ export default function Contact() {
         return;
       }
       if (!res.ok) throw new Error('Request failed');
+      try {
+        const result = await res.json();
+        trackContactLead(result);
+      } catch {
+        // Optional measurement must not change the existing HTTP-success UX.
+      }
       setValues(EMPTY);
       setStatus('success');
       setTimeout(() => setStatus('idle'), 5000);
     } catch {
       setStatus('error');
+    } finally {
+      submitting.current = false;
     }
   };
 
@@ -77,7 +89,7 @@ export default function Contact() {
           <div style={{ marginTop: 32 }}>
             <div className="contact-detail">
               <span className="ic"><Phone /></span>
-              <div><div className="k">Telefon</div><div className="v"><a href="tel:+4915789818308">+49 1578 98 18 308</a></div></div>
+              <div><div className="k">Telefon</div><div className="v"><a href="tel:+4915789818308" onClick={() => trackContactClick('phone')}>+49 1578 98 18 308</a></div></div>
             </div>
             <div className="contact-detail">
               <span className="ic"><Mail /></span>

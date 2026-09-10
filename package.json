@@ -10,7 +10,7 @@
     "build": "npm run build --prefix client"
   },
   "dependencies": {
-    "mongoose": "^8.12.1"
+    "mongoose": "^8.24.4"
   },
   "engines": {
     "node": ">=20"

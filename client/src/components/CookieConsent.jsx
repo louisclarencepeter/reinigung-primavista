@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { setAnalyticsConsent } from '../lib/analytics.js';
 
 const CONSENT_KEY = 'primaVistaCookieConsent';
 const CONSENT_AT_KEY = 'primaVistaCookieConsentAt';
@@ -8,76 +7,41 @@ const CONSENT_AT_KEY = 'primaVistaCookieConsentAt';
 const CONSENT_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
 
 function getStoredConsent() {
+  let consent = window.__pvCookieConsent;
   try {
     const choice = localStorage.getItem(CONSENT_KEY);
-    if (!choice) return null;
-    // Entries without a timestamp (saved before expiry existed) also re-ask.
     const at = Number(localStorage.getItem(CONSENT_AT_KEY));
-    if (!at || Date.now() - at > CONSENT_MAX_AGE_MS) return null;
-    return choice;
-  } catch {
-    return null;
-  }
-}
-
-function saveConsent(choice) {
-  try {
-    localStorage.setItem(CONSENT_KEY, choice);
-    localStorage.setItem(CONSENT_AT_KEY, String(Date.now()));
-  } catch {
-    /* Consent still applies for this page view. */
-  }
-}
-
-// gtag.js is only injected after acceptance (see index.html). On a decline it
-// is usually not loaded at all; the consent update only matters when the
-// visitor revokes a previous acceptance mid-session.
-function updateGoogleConsent(choice) {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-  window.gtag('consent', 'update', {
-    analytics_storage: choice === 'accepted' ? 'granted' : 'denied',
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-  });
-}
-
-// Best-effort removal of GA cookies after a revoked consent. GA may have set
-// them on the bare domain or a parent domain, so try each suffix.
-function deleteGaCookies() {
-  const expire = 'expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-  const parts = window.location.hostname.split('.');
-  document.cookie.split(';').forEach((entry) => {
-    const name = entry.split('=')[0].trim();
-    if (name !== '_ga' && !name.startsWith('_ga_')) return;
-    document.cookie = `${name}=; ${expire}`;
-    for (let i = 0; i < parts.length - 1; i++) {
-      document.cookie = `${name}=; ${expire}; domain=.${parts.slice(i).join('.')}`;
+    if (!consent || at > consent.at || (at === consent.at && choice !== 'accepted')) {
+      consent = { choice, at };
     }
-  });
+  } catch {
+    // A pre-hydration choice still applies when storage is blocked.
+  }
+  // Entries without a timestamp (saved before expiry existed) also re-ask.
+  if (!consent?.at || Date.now() - consent.at > CONSENT_MAX_AGE_MS) return null;
+  return consent.choice;
 }
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    setVisible(!getStoredConsent());
+    const syncConsent = () => {
+      const choice = getStoredConsent();
+      setVisible(!choice);
+    };
+    syncConsent();
     const openSettings = () => setVisible(true);
+    window.addEventListener('pv-cookie-consent', syncConsent);
     window.addEventListener('open-cookie-consent', openSettings);
-    return () => window.removeEventListener('open-cookie-consent', openSettings);
+    return () => {
+      window.removeEventListener('pv-cookie-consent', syncConsent);
+      window.removeEventListener('open-cookie-consent', openSettings);
+    };
   }, []);
 
   const choose = (choice) => {
-    setAnalyticsConsent(choice);
-    saveConsent(choice);
-    setVisible(false);
-    if (choice === 'accepted') {
-      if (typeof window.loadGoogleAnalytics === 'function') window.loadGoogleAnalytics();
-      updateGoogleConsent(choice); // re-grant if revoked earlier this session
-    } else {
-      updateGoogleConsent(choice);
-      deleteGaCookies();
-    }
+    window.applyCookieConsent(choice);
   };
 
   if (!visible) return null;
@@ -94,10 +58,10 @@ export default function CookieConsent() {
         </p>
       </div>
       <div className="cookie-actions" aria-label="Cookie-Auswahl">
-        <button type="button" className="btn btn-ghost-dark" onClick={() => choose('declined')}>
+        <button type="button" className="btn btn-ghost-dark" data-pv-action="declined" onClick={() => choose('declined')}>
           Ablehnen
         </button>
-        <button type="button" className="btn btn-primary" onClick={() => choose('accepted')}>
+        <button type="button" className="btn btn-primary" data-pv-action="accepted" onClick={() => choose('accepted')}>
           Akzeptieren
         </button>
       </div>

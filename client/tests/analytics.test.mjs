@@ -97,6 +97,18 @@ test('a newer withdrawal in another tab overrides in-page acceptance', async () 
   assert.deepEqual(calls, []);
 });
 
+test('pre-hydration choices retain their timestamps and survive blocked storage', async () => {
+  const analytics = await freshAnalytics();
+  window.__pvCookieConsent = { choice: 'accepted', at: Date.now() - 1000 };
+  storage.set('primaVistaCookieConsent', 'declined');
+  storage.set('primaVistaCookieConsentAt', String(Date.now()));
+  assert.equal(analytics.trackContactClick('phone'), false);
+  window.__pvCookieConsent = { choice: 'declined', at: Date.now() };
+  window.localStorage.getItem = () => { throw new Error('Storage blocked'); };
+  assert.equal(analytics.trackContactClick('phone'), false);
+  assert.deepEqual(calls, []);
+});
+
 test('an observed stored withdrawal remains effective if storage later fails', async () => {
   const analytics = await freshAnalytics();
   analytics.setAnalyticsConsent('accepted');

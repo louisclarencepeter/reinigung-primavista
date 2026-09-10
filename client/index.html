@@ -9,7 +9,7 @@
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 window.loadGoogleAnalytics = function () {
-  if (window.__gaLoaded) return;
+  if (window.__gaLoaded || window['ga-disable-G-ZS9VVJJVF5']) return;
   window.__gaLoaded = true;
   gtag('consent', 'default', {
     analytics_storage: 'granted',
@@ -25,6 +25,40 @@ window.loadGoogleAnalytics = function () {
   s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZS9VVJJVF5';
   document.head.appendChild(s);
+};
+// Shared by the prerendered controls and React: a withdrawal must apply now,
+// even if the large application entry is still downloading or storage fails.
+window.applyCookieConsent = function (choice) {
+  if (choice !== 'accepted' && choice !== 'declined') return;
+  var at = Date.now();
+  window.__pvCookieConsent = { choice: choice, at: at };
+  window['ga-disable-G-ZS9VVJJVF5'] = choice !== 'accepted';
+  try {
+    localStorage.setItem('primaVistaCookieConsent', choice);
+    localStorage.setItem('primaVistaCookieConsentAt', String(at));
+  } catch (e) {}
+  if (choice === 'accepted') window.loadGoogleAnalytics();
+  gtag('consent', 'update', {
+    analytics_storage: choice === 'accepted' ? 'granted' : 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied'
+  });
+  if (choice === 'declined') {
+    try {
+      var expire = 'expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+      var parts = window.location.hostname.split('.');
+      document.cookie.split(';').forEach(function (entry) {
+        var name = entry.split('=')[0].trim();
+        if (name !== '_ga' && !name.startsWith('_ga_')) return;
+        document.cookie = name + '=; ' + expire;
+        for (var i = 0; i < parts.length - 1; i++) {
+          document.cookie = name + '=; ' + expire + ' domain=.' + parts.slice(i).join('.');
+        }
+      });
+    } catch (e) {}
+  }
+  window.dispatchEvent(new Event('pv-cookie-consent'));
 };
 // Consent expires after 12 months (see CookieConsent.jsx) — an expired
 // acceptance must not load GA, the banner will re-ask instead.
@@ -97,7 +131,26 @@ if (cookieConsent === 'accepted' && cookieConsentAt &&
 <div id="root"></div>
 <script>
 window.__pvMenuHydrated = false;
+window.__pvAppHydrated = false;
+window.__pvDeferredActions = [];
 (function(){
+  document.addEventListener('click', function(e){
+    if (window.__pvAppHydrated) return;
+    var button = e.target.closest && e.target.closest('button[data-pv-action]');
+    if (!button) return;
+    var action = button.getAttribute('data-pv-action');
+    if (!['theme', 'cookie-settings', 'accepted', 'declined'].includes(action)) return;
+    // Handle only these non-submit buttons. Native links, inputs and form
+    // submissions are never suppressed or replayed by this bridge.
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    if (action === 'accepted' || action === 'declined') {
+      window.applyCookieConsent(action);
+    } else {
+      window.__pvDeferredActions.push(action);
+    }
+    if (window.__pvLoadApp) window.__pvLoadApp();
+  }, true);
   function setMenu(open){
     var button = document.querySelector('.menu-toggle');
     var nav = document.getElementById('mobile-nav');
@@ -111,6 +164,10 @@ window.__pvMenuHydrated = false;
   }
   document.addEventListener('click', function(e){
     if (window.__pvMenuHydrated) return;
+    if (e.target.closest && e.target.closest('#mobile-nav a')) {
+      setMenu(false);
+      return;
+    }
     var button = e.target.closest && e.target.closest('.menu-toggle');
     if (!button) return;
     e.preventDefault();

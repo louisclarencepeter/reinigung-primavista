@@ -221,6 +221,16 @@ test('every existing phone link records only contact_click, without changing its
 
 test('actual consent buttons gate new events immediately and keep ad consent denied', async () => {
   storage.clear();
+  // Consent now belongs to the shared, pre-hydration HTML bootstrap. Exercise
+  // that real implementation too, rather than substituting a consent mock.
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const bootstrap = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  window.dataLayer = calls;
+  window.dispatchEvent = () => true;
+  vm.runInNewContext(bootstrap, {
+    window, dataLayer: calls, localStorage: window.localStorage,
+    document: { cookie: '' }, Event,
+  });
   const harness = await renderHandlers('CookieConsent');
   const buttons = findNodes(harness.tree, (node) => node.type === 'button');
   assert.equal(analytics.trackContactClick('phone'), false);

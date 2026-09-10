@@ -48,9 +48,10 @@ curl -H "Authorization: Bearer $ADMIN_TOKEN" https://<your-site>.netlify.app/api
 
 ## CI
 
-GitHub Actions (`.github/workflows/ci.yml`) builds the client on every push and PR to `main`/`development`.
+GitHub Actions (`.github/workflows/ci.yml`) runs the native Node client tests and builds the client on every push and PR to `main`/`development`.
 
 ## Notes
 - Contact details, stats, and legal links are **placeholders** — swap in real values. `client/public/datenschutz.html` is pre-filled with the details currently available (email, phone, locations); the remaining bracketed items (street address) get filled in once the final company data is available — update the page, don't remove it.
 - Theme preference persists in `localStorage`; animations respect `prefers-reduced-motion`.
 - Cookie consent is stored with a timestamp and expires after 12 months — the banner then re-asks, and an expired acceptance no longer loads Google Analytics (logic lives in both `CookieConsent.jsx` and the loader in `index.html`).
+- The prerendered page keeps its deferred React entry (first interaction or six seconds). Consent choices apply synchronously through the shared `index.html` consent function, including immediate withdrawal while React downloads; theme and cookie-settings clicks are retained until hydration. Native forms and links are never replayed. Service-worker cache `primavista-v3` refreshes the shell containing this bridge.

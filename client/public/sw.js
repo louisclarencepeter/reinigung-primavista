@@ -1,4 +1,4 @@
-const CACHE_NAME = 'primavista-v2';
+const CACHE_NAME = 'primavista-v3';
 const APP_SHELL = [
   '/',
   '/manifest.webmanifest',

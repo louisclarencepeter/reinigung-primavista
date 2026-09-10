@@ -56,7 +56,7 @@ export default function Footer() {
         <div className="legal">
           <a href="/impressum.html">Impressum</a>
           <a href="/datenschutz.html">Datenschutz</a>
-          <button type="button" onClick={openCookieSettings}>Cookie-Einstellungen</button>
+          <button type="button" data-pv-action="cookie-settings" onClick={openCookieSettings}>Cookie-Einstellungen</button>
         </div>
       </div>
     </footer>

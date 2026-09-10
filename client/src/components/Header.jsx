@@ -58,6 +58,7 @@ export default function Header({ onToggleTheme }) {
           <div className="header-cta">
             <button
               className="theme-toggle"
+              data-pv-action="theme"
               onClick={onToggleTheme}
               aria-label="Farbschema umschalten"
               title="Farbschema umschalten"

@@ -67,7 +67,7 @@ function inlineCssAssets() {
           const loadCode = `Promise.all([${delayedScripts.join(',')}])`;
           html = html.replace(
             '</body>',
-            `<script>(function(){var p;function load(e){if(p)return p;var t=e&&e.target&&e.target.closest&&e.target.closest('.menu-toggle');p=${loadCode}.then(function(){if(t&&t.isConnected&&t.getAttribute('aria-expanded')==='false'){setTimeout(function(){t.click();},50);}});return p;}['pointerdown','mousedown','click','keydown','touchstart','focus','wheel','scroll'].forEach(function(e){window.addEventListener(e,load,{once:true,passive:true});});window.addEventListener('load',function(){setTimeout(load,6000);},{once:true});})();</script></body>`
+            `<script>(function(){var p;function load(){if(!p)p=${loadCode};return p;}window.__pvLoadApp=load;['pointerdown','mousedown','click','keydown','touchstart','focus','wheel','scroll'].forEach(function(e){window.addEventListener(e,load,{once:true,passive:true});});window.addEventListener('load',function(){setTimeout(load,6000);},{once:true});})();</script></body>`
           );
         }
         asset.source = html;

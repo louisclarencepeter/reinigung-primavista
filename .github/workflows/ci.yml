@@ -19,6 +19,7 @@ jobs:
             client/package-lock.json
       - run: npm ci                       # root deps (mongoose) for the function
       - run: npm ci --prefix client
+      - run: npm test --prefix client
       - run: npm run build --prefix client
       - name: Smoke-check the Netlify Function loads
         run: node --input-type=module -e "await import('./netlify/functions/contact.mjs'); console.log('contact.mjs OK')"

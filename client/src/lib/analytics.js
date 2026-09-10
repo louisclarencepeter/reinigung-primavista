@@ -12,6 +12,11 @@ export function setAnalyticsConsent(choice) {
 function hasAnalyticsConsent() {
   if (typeof window === 'undefined') return false;
   let consent = sessionConsent;
+  const inPage = window.__pvCookieConsent;
+  if (inPage && (!consent || inPage.at > consent.at ||
+      (inPage.at === consent.at && inPage.choice !== 'accepted'))) {
+    consent = inPage;
+  }
   try {
     const choice = window.localStorage.getItem('primaVistaCookieConsent');
     const at = Number(window.localStorage.getItem('primaVistaCookieConsentAt'));

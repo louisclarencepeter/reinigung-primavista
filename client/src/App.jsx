@@ -27,6 +27,26 @@ export default function App() {
     }
   }, [theme]);
 
+  useEffect(() => {
+    let mounted = true;
+    // Wait until the current effect flush has installed CookieConsent's
+    // listeners. The guard also avoids replaying twice in StrictMode.
+    queueMicrotask(() => {
+      if (!mounted) return;
+      window.__pvAppHydrated = true;
+      const actions = window.__pvDeferredActions || [];
+      window.__pvDeferredActions = [];
+      for (const action of actions) {
+        if (action === 'theme') setTheme((current) => current === 'dark' ? 'light' : 'dark');
+        if (action === 'cookie-settings') window.dispatchEvent(new Event('open-cookie-consent'));
+      }
+    });
+    return () => {
+      mounted = false;
+      window.__pvAppHydrated = false;
+    };
+  }, []);
+
   // Scroll reveal
   useEffect(() => {
     const io = new IntersectionObserver(
@@ -50,7 +70,7 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#top">Zum Inhalt springen</a>
-      <Header onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} />
+      <Header onToggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} />
       <main id="top" tabIndex={-1}>
         <Hero />
         <Services />

@@ -209,14 +209,14 @@ test('every existing phone link records only contact_click, without changing its
     const harness = await renderHandlers(component);
     const phoneLinks = findNodes(harness.tree, (node) => node.type === 'a' && node.props.href?.startsWith('tel:'));
     assert.equal(phoneLinks.length, 1, component);
-    assert.equal(phoneLinks[0].props.href, 'tel:+4915789818308');
+    assert.equal(phoneLinks[0].props.href, 'tel:+4917648747554');
     phoneLinks[0].props.onClick();
     assert.equal(findNodes(harness.tree, (node) => node.props?.href?.includes('wa.me')).length, 0);
   }
   assert.deepEqual(events().map((call) => [call[1], call[2].contact_method]), [
     ['contact_click', 'phone'], ['contact_click', 'phone'], ['contact_click', 'phone'],
   ]);
-  assert.equal(JSON.stringify(events()).includes('+4915789818308'), false);
+  assert.equal(JSON.stringify(events()).includes('+4917648747554'), false);
 });
 
 test('actual consent buttons gate new events immediately and keep ad consent denied', async () => {

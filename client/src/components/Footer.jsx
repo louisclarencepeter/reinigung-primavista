@@ -44,7 +44,7 @@ export default function Footer() {
         <div className="footer-col">
           <h2>Kontakt</h2>
           <ul>
-            <li><a href="tel:+4915789818308" onClick={() => trackContactClick('phone')}>+49 1578 98 18 308</a></li>
+            <li><a href="tel:+4917648747554" onClick={() => trackContactClick('phone')}>+49 176 48747554</a></li>
             <li><a href="mailto:info@reinigung-primavista.com">info@reinigung-primavista.com</a></li>
             <li>Gref-Völsing-Straße 13<br />60314 Frankfurt am Main<br />Deutschland</li>
           </ul>

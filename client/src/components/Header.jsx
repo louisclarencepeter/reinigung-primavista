@@ -107,9 +107,9 @@ export default function Header({ onToggleTheme }) {
           </a>
 
           <div className="mobile-nav-contact" aria-label="Kontaktinformationen">
-            <a href="tel:+4915789818308" onClick={() => { trackContactClick('phone'); setOpen(false); }}>
+            <a href="tel:+4917648747554" onClick={() => { trackContactClick('phone'); setOpen(false); }}>
               <span className="mobile-nav-contact-icon"><Phone aria-hidden="true" /></span>
-              <span><strong>Telefon</strong><small>+49 1578 98 18 308</small></span>
+              <span><strong>Telefon</strong><small>+49 176 48747554</small></span>
             </a>
             <a href="mailto:info@reinigung-primavista.com" onClick={() => setOpen(false)}>
               <span className="mobile-nav-contact-icon"><Mail aria-hidden="true" /></span>

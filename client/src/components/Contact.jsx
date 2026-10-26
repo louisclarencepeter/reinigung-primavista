@@ -89,7 +89,7 @@ export default function Contact() {
           <div style={{ marginTop: 32 }}>
             <div className="contact-detail">
               <span className="ic"><Phone /></span>
-              <div><div className="k">Telefon</div><div className="v"><a href="tel:+4915789818308" onClick={() => trackContactClick('phone')}>+49 1578 98 18 308</a></div></div>
+              <div><div className="k">Telefon</div><div className="v"><a href="tel:+4917648747554" onClick={() => trackContactClick('phone')}>+49 176 48747554</a></div></div>
             </div>
             <div className="contact-detail">
               <span className="ic"><Mail /></span>
